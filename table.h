@@ -45,7 +45,16 @@ extern "C" {
   extern int go_fltk_TableRow_find_cell(GTableRow* t, int ctx, int row, int col, int *x, int *y, int *w, int *h);
   extern int go_fltk_Table_column_from_cursor(GTableRow* t);
   extern int go_fltk_Table_row_from_cursor(GTableRow* t);
-		
+
+  extern void go_fltk_TableRow_set_scrollbar_mode(GTableRow* t, int mode);
+  extern int  go_fltk_TableRow_scrollbar_mode(GTableRow* t);
+
+  extern const int go_FL_TABLE_SCROLLBAR_AUTO;
+  extern const int go_FL_TABLE_SCROLLBAR_NONE;
+  extern const int go_FL_TABLE_SCROLLBAR_VERTICAL;
+  extern const int go_FL_TABLE_SCROLLBAR_HORIZONTAL;
+  extern const int go_FL_TABLE_SCROLLBAR_BOTH;
+
   extern const int go_FL_CONTEXT_NONE;
   extern const int go_FL_CONTEXT_STARTPAGE;
   extern const int go_FL_CONTEXT_ENDPAGE;

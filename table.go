@@ -237,6 +237,38 @@ func (t *TableRow) SetType(tableType RowSelectMode) {
 	C.go_fltk_TableRow_set_type((*C.GTableRow)(t.ptr()), C.int(tableType))
 }
 
+// TableScrollbarMode controls which scrollbars a TableRow displays.
+type TableScrollbarMode int
+
+var (
+	// TableScrollbarAuto lets FLTK decide scrollbar visibility (default).
+	TableScrollbarAuto = TableScrollbarMode(C.go_FL_TABLE_SCROLLBAR_AUTO)
+	// TableScrollbarNone hides both scrollbars.
+	TableScrollbarNone = TableScrollbarMode(C.go_FL_TABLE_SCROLLBAR_NONE)
+	// TableScrollbarVertical shows only the vertical scrollbar.
+	TableScrollbarVertical = TableScrollbarMode(C.go_FL_TABLE_SCROLLBAR_VERTICAL)
+	// TableScrollbarHorizontal shows only the horizontal scrollbar.
+	TableScrollbarHorizontal = TableScrollbarMode(C.go_FL_TABLE_SCROLLBAR_HORIZONTAL)
+	// TableScrollbarBoth shows both scrollbars.
+	TableScrollbarBoth = TableScrollbarMode(C.go_FL_TABLE_SCROLLBAR_BOTH)
+)
+
+// SetScrollbarMode controls which scrollbars are shown. The mode is
+// enforced after every operation that triggers FLTK's internal
+// table_resized() (SetRowCount, SetColumnCount, Resize), so FLTK's
+// automatic scrollbar logic cannot override it.
+//
+// The default is TableScrollbarAuto, which preserves FLTK's built-in
+// behavior.
+func (t *TableRow) SetScrollbarMode(mode TableScrollbarMode) {
+	C.go_fltk_TableRow_set_scrollbar_mode((*C.GTableRow)(t.ptr()), C.int(mode))
+}
+
+// ScrollbarMode returns the current scrollbar mode.
+func (t *TableRow) ScrollbarMode() TableScrollbarMode {
+	return TableScrollbarMode(C.go_fltk_TableRow_scrollbar_mode((*C.GTableRow)(t.ptr())))
+}
+
 //export _go_drawTableHandler
 func _go_drawTableHandler(id, context, r, c, x, y, w, h C.int) {
 	globalTableCallbackMap.invoke(int(id), TableContext(context), int(r), int(c), int(x), int(y), int(w), int(h))
