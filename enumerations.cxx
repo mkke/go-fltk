@@ -67,6 +67,12 @@ const int go_FL_BOLD_ITALIC = (int)FL_BOLD_ITALIC;
 
 const int go_FL_NORMAL_LABEL = (int)FL_NORMAL_LABEL;
 const int go_FL_NO_LABEL = (int)FL_NO_LABEL;
+const int go_FL_SHADOW_LABEL = (int)FL_SHADOW_LABEL;
+const int go_FL_ENGRAVED_LABEL = (int)FL_ENGRAVED_LABEL;
+const int go_FL_EMBOSSED_LABEL = (int)FL_EMBOSSED_LABEL;
+const int go_FL_MULTI_LABEL = (int)FL_MULTI_LABEL;
+const int go_FL_ICON_LABEL = (int)FL_ICON_LABEL;
+const int go_FL_IMAGE_LABEL = (int)FL_IMAGE_LABEL;
 
 const int go_FL_NO_EVENT = FL_NO_EVENT;
 const int go_FL_PUSH = FL_PUSH;
@@ -102,6 +108,7 @@ const int go_FL_WHEN_RELEASE_ALWAYS = FL_WHEN_RELEASE_ALWAYS;
 const int go_FL_WHEN_ENTER_KEY = FL_WHEN_ENTER_KEY;
 const int go_FL_WHEN_ENTER_KEY_ALWAYS = FL_WHEN_ENTER_KEY_ALWAYS;
 const int go_FL_WHEN_ENTER_KEY_CHANGED = FL_WHEN_ENTER_KEY_CHANGED;
+const int go_FL_WHEN_CLOSED = FL_WHEN_CLOSED;
 
 const int go_FL_ESCAPE = FL_Escape;
 const int go_FL_TAB = FL_Tab;

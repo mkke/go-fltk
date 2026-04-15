@@ -147,8 +147,14 @@ var (
 type LabelType int
 
 var (
-	NORMAL_LABEL = LabelType(C.go_FL_NORMAL_LABEL)
-	NO_LABEL     = LabelType(C.go_FL_NO_LABEL)
+	NORMAL_LABEL   = LabelType(C.go_FL_NORMAL_LABEL)
+	NO_LABEL       = LabelType(C.go_FL_NO_LABEL)
+	SHADOW_LABEL   = LabelType(C.go_FL_SHADOW_LABEL)
+	ENGRAVED_LABEL = LabelType(C.go_FL_ENGRAVED_LABEL)
+	EMBOSSED_LABEL = LabelType(C.go_FL_EMBOSSED_LABEL)
+	MULTI_LABEL    = LabelType(C.go_FL_MULTI_LABEL)
+	ICON_LABEL     = LabelType(C.go_FL_ICON_LABEL)
+	IMAGE_LABEL    = LabelType(C.go_FL_IMAGE_LABEL)
 )
 
 type WrapMode int
@@ -201,6 +207,7 @@ var (
 	WhenEnterKey        = CallbackCondition(C.go_FL_WHEN_ENTER_KEY)
 	WhenEnterKeyAlways  = CallbackCondition(C.go_FL_WHEN_ENTER_KEY_ALWAYS)
 	WhenEnterKeyChanged = CallbackCondition(C.go_FL_WHEN_ENTER_KEY_CHANGED)
+	WhenClosed          = CallbackCondition(C.go_FL_WHEN_CLOSED)
 )
 
 var (

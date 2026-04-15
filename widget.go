@@ -216,3 +216,9 @@ func (w *widget) HasFocus() bool {
 func (w *widget) Changed() uint {
 	return uint(C.go_fltk_Widget_changed(w.ptr()))
 }
+
+// WidgetPointer returns the underlying C pointer of a Widget as an
+// unsafe.Pointer. This is intended for use by extension packages.
+func WidgetPointer(w Widget) unsafe.Pointer {
+	return unsafe.Pointer(w.getWidget().ptr())
+}

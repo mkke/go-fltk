@@ -68,6 +68,10 @@ void _go_drawBox##n (int x, int y, int w, int h, unsigned int c) { \
 DRAW_BOX_LIST
 #undef X
 
+void go_fltk_get_system_colors(void) {
+    Fl::get_system_colors();
+}
+
 typedef void (*f_array)(int, int, int, int, unsigned int);
 
 // Helper macro to turn a number into the address of _go_drawBox<number>
@@ -181,6 +185,10 @@ int go_fltk_wait_timed(double t) {
 int go_fltk_check() {
   return Fl::check();
 }
+void go_fltk_hide_all_windows(void) {
+    Fl::hide_all_windows();
+}
+
 void timeout_handler(void *data) {
   _go_timeoutHandler(uintptr_t(data));
 }

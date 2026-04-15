@@ -11,6 +11,7 @@ extern "C" {
   extern void go_fltk_unlock();
 
   extern void go_fltk_init_styles(void);
+  extern void go_fltk_get_system_colors(void);
   extern int go_fltk_set_scheme(const char *scheme);
   extern void go_fltk_set_background_color(unsigned char r, unsigned char g, unsigned char b);
   extern void go_fltk_set_background2_color(unsigned char r, unsigned char g, unsigned char b);
@@ -31,6 +32,7 @@ extern "C" {
   extern int go_fltk_wait();
   extern int go_fltk_wait_timed(double t);
   extern int go_fltk_check();
+  extern void go_fltk_hide_all_windows(void);
 
   extern void go_fltk_add_timeout(double t, uintptr_t id);
   extern void go_fltk_repeat_timeout(double t, uintptr_t id);

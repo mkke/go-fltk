@@ -27,6 +27,10 @@ func InitStyles() {
 	C.go_fltk_init_styles()
 }
 
+func GetSystemColors() {
+	C.go_fltk_get_system_colors()
+}
+
 func SetScheme(scheme string) int {
 	schemestr := C.CString(scheme)
 	defer C.free(unsafe.Pointer(schemestr))
@@ -172,6 +176,10 @@ func Wait(duration ...float64) {
 
 func Check() {
 	C.go_fltk_check()
+}
+
+func HideAllWindows() {
+	C.go_fltk_hide_all_windows()
 }
 
 type timeoutMap struct {
