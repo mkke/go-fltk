@@ -49,3 +49,9 @@ Fl_Widget* go_fltk_Group_child(Fl_Group *g, int index) {
 int go_fltk_Group_child_count(Fl_Group *g) {
   return g->children();
 }
+Fl_Group* go_fltk_Group_current() {
+  return Fl_Group::current();
+}
+void go_fltk_Group_set_current(Fl_Group *g) {
+  Fl_Group::current(g);
+}

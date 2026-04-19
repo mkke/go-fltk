@@ -18,6 +18,8 @@ extern "C" {
   extern void go_fltk_Group_draw_children(Fl_Group *g);
   extern Fl_Widget* go_fltk_Group_child(Fl_Group *g, int index);
   extern int go_fltk_Group_child_count(Fl_Group* g);
+  extern Fl_Group* go_fltk_Group_current();
+  extern void go_fltk_Group_set_current(Fl_Group *g);
 
 #ifdef __cplusplus
 }
