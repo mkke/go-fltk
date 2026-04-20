@@ -212,6 +212,9 @@ void go_fltk_Table_set_column_count(Fl_Table* t, int columnCount) {
 void go_fltk_Table_set_column_width(Fl_Table* t, int column, int width) {
   t->col_width(column, width);
 }
+int go_fltk_Table_column_width(Fl_Table* t, int column) {
+  return t->col_width(column);
+}
 void go_fltk_Table_set_column_width_all(Fl_Table* t, int width) {
   t->col_width_all(width);
 }

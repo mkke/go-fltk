@@ -43,6 +43,9 @@ func (t *table) SetColumnCount(columnCount int) {
 func (t *table) SetColumnWidth(column, width int) {
 	C.go_fltk_Table_set_column_width((*C.Fl_Table)(t.ptr()), C.int(column), C.int(width))
 }
+func (t *table) ColumnWidth(column int) int {
+	return int(C.go_fltk_Table_column_width((*C.Fl_Table)(t.ptr()), C.int(column)))
+}
 func (t *table) SetColumnWidthAll(width int) {
 	C.go_fltk_Table_set_column_width_all((*C.Fl_Table)(t.ptr()), C.int(width))
 }
