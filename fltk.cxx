@@ -185,6 +185,9 @@ int go_fltk_wait_timed(double t) {
 int go_fltk_check() {
   return Fl::check();
 }
+void go_fltk_flush() {
+  Fl::flush();
+}
 void go_fltk_hide_all_windows(void) {
     Fl::hide_all_windows();
 }

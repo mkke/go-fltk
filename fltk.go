@@ -178,6 +178,18 @@ func Check() {
 	C.go_fltk_check()
 }
 
+// Flush paints every window with pending damage immediately. Most apps
+// don't need this — FLTK's event loop flushes on every Wait() iteration.
+// The exception is when a Redraw() marks damage from a background goroutine
+// via Awake but the main thread is about to return to a blocking wait
+// without running another iteration; on macOS in particular this can defer
+// the visible paint until the next user event. Calling Flush from inside
+// the Awake callback forces the paint to happen right away. Safe to call
+// from the main FLTK thread; do not call from arbitrary worker threads.
+func Flush() {
+	C.go_fltk_flush()
+}
+
 func HideAllWindows() {
 	C.go_fltk_hide_all_windows()
 }

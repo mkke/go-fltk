@@ -32,6 +32,7 @@ extern "C" {
   extern int go_fltk_wait();
   extern int go_fltk_wait_timed(double t);
   extern int go_fltk_check();
+  extern void go_fltk_flush();
   extern void go_fltk_hide_all_windows(void);
 
   extern void go_fltk_add_timeout(double t, uintptr_t id);
