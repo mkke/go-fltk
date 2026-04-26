@@ -28,6 +28,8 @@ extern "C" {
   extern const int go_FL_TREE_CONNECTOR_DOTTED;
   extern const int go_FL_TREE_CONNECTOR_SOLID;
   extern void go_fltk_Tree_set_connector_style(Fl_Tree *tree, int style);
+  extern void go_fltk_Tree_set_connector_color(Fl_Tree *tree, unsigned int color);
+  extern void go_fltk_Tree_set_show_collapse(Fl_Tree *tree, int show);
 
   extern const int go_FL_TREE_SELECT_NONE;
   extern const int go_FL_TREE_SELECT_SINGLE;
