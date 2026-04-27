@@ -188,6 +188,9 @@ void go_fltk_Widget_set_tooltip(Fl_Widget *w, const char *tooltip) {
 Fl_Group *go_fltk_Widget_parent(Fl_Widget *w) {
     return w->parent();
 }
+Fl_Window *go_fltk_Widget_window(Fl_Widget *w) {
+    return w->window();
+}
 int go_fltk_Widget_take_focus(Fl_Widget *w) {
     return w->take_focus();
 }

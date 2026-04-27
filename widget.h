@@ -10,6 +10,7 @@ extern "C" {
   typedef struct Fl_Widget_Tracker Fl_Widget_Tracker;
   typedef struct Fl_Widget Fl_Widget;
   typedef struct Fl_Group Fl_Group;
+  typedef struct Fl_Window Fl_Window;
   typedef struct Fl_Image Fl_Image;
 
   extern Fl_Widget_Tracker* go_fltk_new_Widget_Tracker(Fl_Widget* t);
@@ -65,6 +66,7 @@ extern "C" {
   extern int go_fltk_Widget_labeltype(Fl_Widget *w);
   extern void go_fltk_Widget_set_tooltip(Fl_Widget* w, const char* tooltip);
   extern Fl_Group *go_fltk_Widget_parent(Fl_Widget *w);
+  extern Fl_Window *go_fltk_Widget_window(Fl_Widget *w);
   extern int go_fltk_Widget_take_focus(Fl_Widget *w);
   extern int go_fltk_Widget_has_focus(Fl_Widget *w);
   extern unsigned int go_fltk_Widget_changed(Fl_Widget* w);
