@@ -201,9 +201,19 @@ func (w *widget) SetTooltip(text string) {
 	defer C.free(unsafe.Pointer(tooltipStr))
 	C.go_fltk_Widget_set_tooltip(w.ptr(), tooltipStr)
 }
+// Parent returns the immediate containing Fl_Group for this widget, or
+// nil when the widget has no parent (a top-level window, or a widget
+// not yet added to a group). The nil guard matters: without it a
+// top-level window's Parent() returned a *Group wrapping a NULL
+// pointer, and any method call on it panicked with "widget is
+// destroyed". Mirrors Window()'s nil handling below.
 func (w *widget) Parent() *Group {
+	p := C.go_fltk_Widget_parent(w.ptr())
+	if p == nil {
+		return nil
+	}
 	group := &Group{}
-	initUnownedWidget(group, unsafe.Pointer(C.go_fltk_Widget_parent(w.ptr())))
+	initUnownedWidget(group, unsafe.Pointer(p))
 	return group
 }
 
