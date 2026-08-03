@@ -16,7 +16,7 @@ func MessageBox(title, message string) {
 }
 
 func ChoiceDialog(message string, options ...string) int {
-	if len(options) == 0 || len(options) >= 3 {
+	if len(options) == 0 || len(options) > 3 {
 		panic("Unsupported number of ChoiceDialog options")
 	}
 	messageStr := C.CString(message)
