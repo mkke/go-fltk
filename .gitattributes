@@ -1,0 +1,7 @@
+# This repository vendors upstream FLTK headers and the go-fltk wrapper
+# sources, and is maintained as a rebased stack of local commits on top of
+# upstream. Git's line-ending normalisation (core.autocrlf=input) rewrites
+# CRLF to LF in every file it stages, which silently turns a small edit into
+# a whole-file diff and makes each rebase conflict on files we never meant to
+# touch. Disable all text conversion so committed bytes match upstream's.
+* -text
