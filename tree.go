@@ -73,6 +73,29 @@ func (t *Tree) SetConnectorStyle(style TreeConnector) {
 	C.go_fltk_Tree_set_connector_style((*C.Fl_Tree)(t.ptr()), C.int(style))
 }
 
+// SetConnectorColor sets the color used to draw the tree connector lines.
+// FLTK defaults to FL_INACTIVE_COLOR, which several widget themes set to
+// a value that is indistinguishable from their own background — pass an
+// explicit color (e.g. one derived from the active foreground) when the
+// default is invisible against the active theme.
+func (t *Tree) SetConnectorColor(color Color) {
+	C.go_fltk_Tree_set_connector_color((*C.Fl_Tree)(t.ptr()), C.uint(color))
+}
+
+// SetShowCollapse controls whether the per-row open/close icons are
+// drawn at the start of each parent row. FLTK's default icons are
+// black-pixel XPMs that cannot be retinted; on dark themes they show
+// up as conspicuous black blobs against the connector lines. Hide
+// them when supplying no themed replacement — items can still be
+// expanded and collapsed by double-clicking the row label.
+func (t *Tree) SetShowCollapse(show bool) {
+	v := 0
+	if show {
+		v = 1
+	}
+	C.go_fltk_Tree_set_show_collapse((*C.Fl_Tree)(t.ptr()), C.int(v))
+}
+
 type TreeSelect int
 
 var (

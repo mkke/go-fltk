@@ -175,6 +175,26 @@ func MeasureText(text string, draw_symbols bool) (int, int) {
 	return int(x), int(y)
 }
 
+// MeasureTextWrapped measures text wrapped at wrapWidth pixels using the
+// current font. Returns the actual width and height of the wrapped text.
+func MeasureTextWrapped(text string, wrapWidth int) (int, int) {
+	textStr := C.CString(text)
+	defer C.free(unsafe.Pointer(textStr))
+	x := C.int(wrapWidth)
+	y := C.int(0)
+	C.go_fltk_measure(textStr, &x, &y, C.int(0))
+	return int(x), int(y)
+}
+
+// StringWidth returns the advance width of the given string in the current font.
+// Unlike TextExtents which returns the bounding box, this returns the distance
+// the cursor would advance, which is needed for layout calculations.
+func StringWidth(text string) float64 {
+	textStr := C.CString(text)
+	defer C.free(unsafe.Pointer(textStr))
+	return float64(C.go_fltk_width(textStr))
+}
+
 func DrawCheck(x, y, w, h int, col Color) {
 	C.go_fltk_draw_check(C.int(x), C.int(y), C.int(w), C.int(h), C.uint(col))
 }

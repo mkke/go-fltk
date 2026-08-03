@@ -20,6 +20,9 @@ extern "C" {
 	extern void        go_fltk_Browser_add(Fl_Browser* b, const char *str, uintptr_t id);
 	extern int         go_fltk_Browser_topline(Fl_Browser* b);
 
+	extern int         go_fltk_Browser_textsize(Fl_Browser* b);
+	extern void        go_fltk_Browser_set_textsize(Fl_Browser* b, int size);
+
 	extern void        go_fltk_Browser_set_topline(Fl_Browser* b, int i);
 	extern void        go_fltk_Browser_set_middleline(Fl_Browser* b, int i);
 	extern void        go_fltk_Browser_set_bottomline(Fl_Browser* b, int i);

@@ -69,6 +69,12 @@ extern "C" {
 
   extern const int go_FL_NORMAL_LABEL;
   extern const int go_FL_NO_LABEL;
+  extern const int go_FL_SHADOW_LABEL;
+  extern const int go_FL_ENGRAVED_LABEL;
+  extern const int go_FL_EMBOSSED_LABEL;
+  extern const int go_FL_MULTI_LABEL;
+  extern const int go_FL_ICON_LABEL;
+  extern const int go_FL_IMAGE_LABEL;
 
   extern const int go_FL_NO_EVENT;
   extern const int go_FL_PUSH;
@@ -95,6 +101,8 @@ extern "C" {
   extern const int go_FL_DND_DRAG;
   extern const int go_FL_DND_LEAVE;
   extern const int go_FL_DND_RELEASE;
+  extern const int go_FL_ZOOM_GESTURE;
+  extern const int go_FL_ZOOM_EVENT;
 
   extern const int go_FL_WHEN_NEVER;
   extern const int go_FL_WHEN_CHANGED;
@@ -104,6 +112,7 @@ extern "C" {
   extern const int go_FL_WHEN_ENTER_KEY;
   extern const int go_FL_WHEN_ENTER_KEY_ALWAYS;
   extern const int go_FL_WHEN_ENTER_KEY_CHANGED;
+  extern const int go_FL_WHEN_CLOSED;
 
   extern const int go_FL_ESCAPE;
   extern const int go_FL_TAB;

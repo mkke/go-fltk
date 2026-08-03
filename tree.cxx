@@ -54,6 +54,14 @@ void go_fltk_Tree_set_connector_style(Fl_Tree *tree, int style) {
   tree->connectorstyle((Fl_Tree_Connector)style);
 }
 
+void go_fltk_Tree_set_connector_color(Fl_Tree *tree, unsigned int color) {
+  tree->connectorcolor((Fl_Color)color);
+}
+
+void go_fltk_Tree_set_show_collapse(Fl_Tree *tree, int show) {
+  tree->showcollapse(show);
+}
+
 const int go_FL_TREE_SELECT_NONE = (int)FL_TREE_SELECT_NONE;
 const int go_FL_TREE_SELECT_SINGLE = (int)FL_TREE_SELECT_SINGLE;
 const int go_FL_TREE_SELECT_MULTI = (int)FL_TREE_SELECT_MULTI;

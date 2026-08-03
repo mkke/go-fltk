@@ -50,6 +50,14 @@ int go_fltk_Browser_topline(Fl_Browser* b) {
 	return b->topline();
 }
 
+int go_fltk_Browser_textsize(Fl_Browser* b) {
+	return b->textsize();
+}
+
+void go_fltk_Browser_set_textsize(Fl_Browser* b, int size) {
+	b->textsize(size);
+}
+
 void go_fltk_Browser_set_bottomline(Fl_Browser* b, int i) {
 	b->bottomline(i);
 }

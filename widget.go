@@ -206,6 +206,21 @@ func (w *widget) Parent() *Group {
 	initUnownedWidget(group, unsafe.Pointer(C.go_fltk_Widget_parent(w.ptr())))
 	return group
 }
+
+// Window returns the topmost containing Fl_Window for this widget by walking
+// the FLTK parent chain. Returns nil if the widget is not (yet) inside any
+// window. For a widget that is itself a Fl_Window, the FLTK convention is
+// that window() returns the parent window, not the widget itself; callers
+// that need the widget-as-window case must type-assert *Window separately.
+func (w *widget) Window() *Window {
+	p := C.go_fltk_Widget_window(w.ptr())
+	if p == nil {
+		return nil
+	}
+	win := &Window{}
+	initUnownedWidget(win, unsafe.Pointer(p))
+	return win
+}
 func (w *widget) TakeFocus() int {
 	return int(C.go_fltk_Widget_take_focus(w.ptr()))
 }
@@ -215,4 +230,10 @@ func (w *widget) HasFocus() bool {
 
 func (w *widget) Changed() uint {
 	return uint(C.go_fltk_Widget_changed(w.ptr()))
+}
+
+// WidgetPointer returns the underlying C pointer of a Widget as an
+// unsafe.Pointer. This is intended for use by extension packages.
+func WidgetPointer(w Widget) unsafe.Pointer {
+	return unsafe.Pointer(w.getWidget().ptr())
 }

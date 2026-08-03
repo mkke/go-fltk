@@ -61,3 +61,28 @@ func (g *Group) Children() []*widget {
 	}
 	return children
 }
+
+// CurrentGroup returns the group that newly-created widgets are implicitly
+// added to, or nil if no group is currently open. This mirrors
+// Fl_Group::current() and is useful for save/restore patterns around
+// nested Begin/End pairs that would otherwise leave the current-group
+// pointer in an unexpected state.
+func CurrentGroup() *Group {
+	p := unsafe.Pointer(C.go_fltk_Group_current())
+	if p == nil {
+		return nil
+	}
+	g := &Group{}
+	initUnownedWidget(g, p)
+	return g
+}
+
+// SetCurrentGroup sets the group that newly-created widgets are added to.
+// Pass nil to clear (no implicit parent). Mirrors Fl_Group::current(g).
+func SetCurrentGroup(g *Group) {
+	var p *C.Fl_Group
+	if g != nil {
+		p = (*C.Fl_Group)(g.ptr())
+	}
+	C.go_fltk_Group_set_current(p)
+}

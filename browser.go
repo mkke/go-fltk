@@ -77,6 +77,17 @@ func (b *Browser) TopLine() int {
 	return int(C.go_fltk_Browser_topline((*C.Fl_Browser)(b.ptr())))
 }
 
+// TextSize returns the font size used to render the browser's items,
+// in pixels. The default is FL_NORMAL_SIZE (14).
+func (b *Browser) TextSize() int {
+	return int(C.go_fltk_Browser_textsize((*C.Fl_Browser)(b.ptr())))
+}
+
+// SetTextSize sets the font size used to render the browser's items.
+func (b *Browser) SetTextSize(size int) {
+	C.go_fltk_Browser_set_textsize((*C.Fl_Browser)(b.ptr()), C.int(size))
+}
+
 func (b *Browser) SetBottomLine(line int) error {
 	if line < 1 || line > b.Size() {
 		return ErrInvalidLine
