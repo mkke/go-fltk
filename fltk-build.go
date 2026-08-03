@@ -110,7 +110,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	if runtime.GOOS == "windows" {
+	// The combined patch carries fixes for both Windows
+	// (src/Fl_win32.cxx) and macOS (src/Fl_cocoa.mm). Apply it on those
+	// platforms; each picks up only the hunk that compiles on it because
+	// the other source file exists in the FLTK tree but is excluded by
+	// platform conditionals.
+	if runtime.GOOS == "windows" || runtime.GOOS == "darwin" {
 		applyCmd := exec.Command("git", "apply", "../../lib/fltk-1.4.patch")
 		applyCmd.Dir = fltkSourceDir
 		applyCmd.Stdout = os.Stdout
@@ -156,6 +161,13 @@ func main() {
 			fmt.Printf("Unsupported MacOS architecture, %s\n", runtime.GOARCH)
 			os.Exit(1)
 		}
+		// Pin the deployment target so each .o records minos 13.0 — matching
+		// what the tracked cgo flags and the historical lib were built with.
+		// Without this, cmake defaults to the build host's current macOS
+		// version (e.g. 14.8), and every consumer link emits "object file
+		// ... was built for newer 'macOS' version (X.Y) than being linked
+		// (14.0)" warnings, dozens per .o, drowning real diagnostics.
+		cmakeCmd.Args = append(cmakeCmd.Args, "-DCMAKE_OSX_DEPLOYMENT_TARGET=13.0")
 	}
 	cmakeCmd.Dir = "fltk_build"
 	cmakeCmd.Stdout = os.Stdout

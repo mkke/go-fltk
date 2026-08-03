@@ -29,3 +29,27 @@ index e7539737f..4332a3988 100644
  #endif
    }
  };
+diff --git a/src/Fl_cocoa.mm b/src/Fl_cocoa.mm
+index 2331a9ff6..27c9ba4a3 100644
+--- a/src/Fl_cocoa.mm
++++ b/src/Fl_cocoa.mm
+@@ -1823,6 +1823,19 @@ static void foreground_and_activate() {
+                                                  inMode:NSDefaultRunLoopMode
+                                                 dequeue:NO];
+       }
++    } else {
++      // NSApp already existed when we got here, which means another
++      // component called +[NSApplication sharedApplication] before FLTK
++      // (e.g. to read [NSApp effectiveAppearance] for an early dark-mode
++      // query, or to set the dock icon). +sharedApplication does not run
++      // -finishLaunching; without it AppKit never installs its default
++      // Apple-event handlers, so kAEQuitApplication (sent by the dock
++      // context-menu Quit and by `osascript "tell app to quit"`) silently
++      // fails with errAEEventNotHandled instead of reaching
++      // -applicationShouldTerminate:. Calling -finishLaunching here closes
++      // that gap; AppKit guards it internally (_finishedLaunching flag)
++      // so a second invocation is a no-op for callers who already ran it.
++      [NSApp finishLaunching];
+     }
+     if (fl_mac_os_version < 140000) {
+       // empty the event queue but keep system events for drag&drop of files at launch
