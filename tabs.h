@@ -21,6 +21,8 @@ extern "C" {
 
   extern void go_fltk_Tabs_handle_overflow(Fl_Tabs* tabs, int overflow);
 
+  extern int go_fltk_Tabs_which(Fl_Tabs* tabs, int event_x, int event_y);
+
 #ifdef __cplusplus
 }
 #endif
