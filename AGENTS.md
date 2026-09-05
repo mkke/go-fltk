@@ -117,7 +117,7 @@ library does not exercise the archives:
 
 ```sh
 go build . && go test .
-cd ../gui && go build ./... && go build -o /tmp/tt.bin ./themetest
+cd ../fltkplus && go build ./... && go build -o /tmp/tt.bin ./themetest
 ```
 
 Only `darwin/arm64` is routinely verified here. Linux and Windows are not
@@ -127,8 +127,8 @@ built on this machine; say so rather than implying they were checked.
 
 Re-pin after any published change (`git.mallorn.de` repos, `master` branch):
 
-- Pinned by pseudo-version in `go.mod`: **gui**, **mchart**, **mhelp**,
-  **hilmir**.
+- Pinned by pseudo-version in `go.mod`: **fltkplus**, **mchart**,
+  **mhelp**, **hilmir**.
 - Local path `replace => ../go-fltk`, so they follow the checkout with no
   pin: **toolbed**, **tradewatch**.
 
@@ -139,11 +139,11 @@ go mod edit -replace github.com/pwiecz/go-fltk=github.com/mkke/go-fltk@<pseudo-v
 Check the `go` directive did not move afterwards -- the shared pre-commit hook
 runs `go mod tidy` pinned to the existing directive, but verify anyway.
 
-**gui and mchart compile FLTK headers straight out of this checkout**, via
+**fltkplus and mchart compile FLTK headers straight out of this checkout**, via
 relative cgo paths like `-I${SRCDIR}/../../go-fltk/include/darwin/arm64`. A
 change to the include layout here breaks their build even when nothing about
 the Go API changed, and it breaks it in the *working tree*, independently of
-which version their `go.mod` pins. Always rebuild gui after touching
+which version their `go.mod` pins. Always rebuild fltkplus after touching
 `include/`.
 
 Publishing the fork is a force-push (`git push --force-with-lease origin
