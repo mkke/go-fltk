@@ -2,6 +2,7 @@
 
 #include <FL/Fl_Table_Row.H>
 #include <FL/Fl.H>
+#include <FL/fl_draw.H>
 
 #include "event_handler.h"
 
@@ -116,16 +117,59 @@ public:
     }
   }
 
-  // Override draw() to enforce scrollbar mode after FLTK's internal
-  // table_resized() runs during the base draw.
+  // A scrollbar starts where the pinned header ends. Fl_Table's
+  // table_resized() lays the vertical scrollbar along the whole inner
+  // height and the horizontal one along the whole inner width, so each
+  // begins beside a header the data never scrolls under, and the thumb
+  // at rest describes an edge a header's height away from the one it
+  // sits on. Move them onto the data area's edges: to*/wi* are what
+  // recalc_dimensions() just computed, with the other scrollbar's
+  // thickness already taken off. table_resized() is not virtual, so
+  // draw() is the hook that follows every call to it.
+  void place_scrollbars() {
+    int ss = scrollbar_size() ? scrollbar_size() : Fl::scrollbar_size();
+    if (vscrollbar->visible()) {
+      vscrollbar->resize(wix + wiw - ss, toy, ss, toh);
+    }
+    if (hscrollbar->visible()) {
+      hscrollbar->resize(tox, wiy + wih - ss, tow, ss);
+    }
+  }
+
+  // The rectangle of one scrollbar as the next draw places it, and
+  // whether it is shown. Placing first means a reader between a
+  // table_resized() and the draw that follows sees the final geometry.
+  int scrollbar_bounds(int vertical, int *x, int *y, int *w, int *h) {
+    place_scrollbars();
+    Fl_Scrollbar *sb = vertical ? vscrollbar : hscrollbar;
+    *x = sb->x(); *y = sb->y(); *w = sb->w(); *h = sb->h();
+    return sb->visible() ? 1 : 0;
+  }
+
+  // Override draw() to settle scrollbar visibility and placement before
+  // the base draw paints the children. The base draw itself calls
+  // table_resized() when the scrollbar size changed, which would undo
+  // the placement, so that call is made here first under the same
+  // condition.
   void draw() override {
-    EventHandler<Fl_Table_Row>::draw();
+    int ss = scrollbar_size() ? scrollbar_size() : Fl::scrollbar_size();
+    if ((vscrollbar && ss != vscrollbar->w()) ||
+        (hscrollbar && ss != hscrollbar->h())) {
+      table_resized();
+    }
     enforce_scrollbar_mode();
-    // FLTK's base draw may have hidden scrollbars and skipped painting
-    // them. After enforce restores visibility, paint them in this frame
-    // so they appear immediately (not deferred to the next cycle).
-    if (vscrollbar->visible()) draw_child(*vscrollbar);
-    if (hscrollbar->visible()) draw_child(*hscrollbar);
+    place_scrollbars();
+    // The header corners the scrollbars no longer cover. Nothing in the
+    // base draw paints there: the header clips stop at the data area's
+    // edges. Filled before the base draw so a draw_cell(CONTEXT_ENDPAGE)
+    // handler can paint them in the header's own look.
+    if (col_header() && vscrollbar->visible()) {
+      fl_rectf(vscrollbar->x(), wiy, vscrollbar->w(), toy - wiy, color());
+    }
+    if (row_header() && hscrollbar->visible()) {
+      fl_rectf(wix, hscrollbar->y(), tox - wix, hscrollbar->h(), color());
+    }
+    EventHandler<Fl_Table_Row>::draw();
   }
 
   // Wrappers for rows()/cols() that enforce scrollbar mode after
@@ -270,6 +314,10 @@ void go_fltk_TableRow_set_scrollbar_mode(GTableRow* t, int mode) {
 
 int go_fltk_TableRow_scrollbar_mode(GTableRow* t) {
   return t->m_scrollbar_mode;
+}
+
+int go_fltk_TableRow_scrollbar_bounds(GTableRow* t, int vertical, int *x, int *y, int *w, int *h) {
+  return t->scrollbar_bounds(vertical, x, y, w, h);
 }
 
 const int go_FL_TABLE_SCROLLBAR_AUTO       = -1;
