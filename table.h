@@ -49,6 +49,7 @@ extern "C" {
 		
   extern void go_fltk_TableRow_set_scrollbar_mode(GTableRow* t, int mode);
   extern int  go_fltk_TableRow_scrollbar_mode(GTableRow* t);
+  extern int  go_fltk_TableRow_scrollbar_bounds(GTableRow* t, int vertical, int *x, int *y, int *w, int *h);
 
   extern const int go_FL_TABLE_SCROLLBAR_AUTO;
   extern const int go_FL_TABLE_SCROLLBAR_NONE;

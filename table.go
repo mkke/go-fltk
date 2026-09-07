@@ -272,6 +272,31 @@ func (t *TableRow) ScrollbarMode() TableScrollbarMode {
 	return TableScrollbarMode(C.go_fltk_TableRow_scrollbar_mode((*C.GTableRow)(t.ptr())))
 }
 
+// VerticalScrollbarBounds returns the vertical scrollbar's rectangle in
+// window coordinates and whether it is shown. The scrollbar runs along
+// the data area's right edge: it starts below the column header when
+// there is one and ends above the horizontal scrollbar when that one is
+// shown. The rectangle is the one the next draw uses, so it is valid
+// right after a row or column change.
+func (t *TableRow) VerticalScrollbarBounds() (x, y, w, h int, shown bool) {
+	return t.scrollbarBounds(1)
+}
+
+// HorizontalScrollbarBounds returns the horizontal scrollbar's rectangle
+// in window coordinates and whether it is shown. The scrollbar runs
+// along the data area's bottom edge: it starts right of the row header
+// when there is one and ends left of the vertical scrollbar when that
+// one is shown.
+func (t *TableRow) HorizontalScrollbarBounds() (x, y, w, h int, shown bool) {
+	return t.scrollbarBounds(0)
+}
+
+func (t *TableRow) scrollbarBounds(vertical int) (x, y, w, h int, shown bool) {
+	var cx, cy, cw, ch C.int
+	v := C.go_fltk_TableRow_scrollbar_bounds((*C.GTableRow)(t.ptr()), C.int(vertical), &cx, &cy, &cw, &ch)
+	return int(cx), int(cy), int(cw), int(ch), v != 0
+}
+
 //export _go_drawTableHandler
 func _go_drawTableHandler(id, context, r, c, x, y, w, h C.int) {
 	globalTableCallbackMap.invoke(int(id), TableContext(context), int(r), int(c), int(x), int(y), int(w), int(h))
