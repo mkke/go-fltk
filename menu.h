@@ -22,6 +22,7 @@ extern "C" {
   extern const char* go_fltk_Menu_text(Fl_Menu_* m, int index);
   extern const char* go_fltk_Menu_selected_text(Fl_Menu_* m);
   extern int go_fltk_Menu_size(Fl_Menu_* m);
+  extern int go_fltk_Menu_textsize(Fl_Menu_* m);
   extern void go_fltk_Menu_set_global(Fl_Menu_* m);
   extern int go_fltk_Menu_mode(Fl_Menu_ *m, int id);
   extern void go_fltk_Menu_set_mode(Fl_Menu_ *m, int id, int flags);  

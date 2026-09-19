@@ -201,6 +201,14 @@ func (w *widget) SetTooltip(text string) {
 	defer C.free(unsafe.Pointer(tooltipStr))
 	C.go_fltk_Widget_set_tooltip(w.ptr(), tooltipStr)
 }
+
+// Tooltip returns the text SetTooltip installed, or the empty string
+// when the widget has none. Fl_Widget::tooltip() returns the widget's
+// own text and never inherits a parent group's, so an empty answer is a
+// widget with no tooltip of its own.
+func (w *widget) Tooltip() string {
+	return C.GoString(C.go_fltk_Widget_tooltip(w.ptr()))
+}
 // Parent returns the immediate containing Fl_Group for this widget, or
 // nil when the widget has no parent (a top-level window, or a widget
 // not yet added to a group). The nil guard matters: without it a

@@ -125,6 +125,14 @@ func (m *menu) Size() int {
 	return int(C.go_fltk_Menu_size((*C.Fl_Menu_)(m.ptr())))
 }
 
+// TextSize returns the point size the menu draws its item titles at,
+// which for a Choice is the size of the selected title in the closed
+// control. It is not LabelSize, which is the size of the widget's own
+// label beside the control.
+func (m *menu) TextSize() int {
+	return int(C.go_fltk_Menu_textsize((*C.Fl_Menu_)(m.ptr())))
+}
+
 // Make the shortcuts for this menu work no matter what window has the focus when you type it.
 func (m *menu) SetGlobal() {
 	C.go_fltk_Menu_set_global((*C.Fl_Menu_)(m.ptr()))
