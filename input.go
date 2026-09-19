@@ -38,6 +38,13 @@ func (i *Input) Mark() int {
 	return int(C.go_fltk_Input_mark((*C.Fl_Input)(i.ptr())))
 }
 
+// TextSize returns the point size the input draws its value at. It is
+// not LabelSize, which is the size of the widget's own label beside the
+// box.
+func (i *Input) TextSize() int {
+	return int(C.go_fltk_Input_textsize((*C.Fl_Input)(i.ptr())))
+}
+
 type Output struct {
 	Input
 }

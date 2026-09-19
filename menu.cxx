@@ -55,6 +55,8 @@ const char* go_fltk_Menu_text(Fl_Menu_* m, int index) { return m->text(index); }
 
 int go_fltk_Menu_size(Fl_Menu_ *m) { return m->size(); }
 
+int go_fltk_Menu_textsize(Fl_Menu_ *m) { return m->textsize(); }
+
 void go_fltk_Menu_set_global(Fl_Menu_ *m) { m->global(); }
 
 int go_fltk_Menu_mode(Fl_Menu_ *m, int id) { return m->mode(id); }  
