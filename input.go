@@ -45,6 +45,13 @@ func (i *Input) TextSize() int {
 	return int(C.go_fltk_Input_textsize((*C.Fl_Input)(i.ptr())))
 }
 
+// TextColor returns the colour the input draws its value in. It is not
+// LabelColor, which is the colour of the widget's own label beside the
+// box.
+func (i *Input) TextColor() Color {
+	return Color(C.go_fltk_Input_textcolor((*C.Fl_Input)(i.ptr())))
+}
+
 type Output struct {
 	Input
 }

@@ -57,6 +57,8 @@ int go_fltk_Menu_size(Fl_Menu_ *m) { return m->size(); }
 
 int go_fltk_Menu_textsize(Fl_Menu_ *m) { return m->textsize(); }
 
+unsigned int go_fltk_Menu_textcolor(Fl_Menu_ *m) { return m->textcolor(); }
+
 void go_fltk_Menu_set_global(Fl_Menu_ *m) { m->global(); }
 
 int go_fltk_Menu_mode(Fl_Menu_ *m, int id) { return m->mode(id); }  
