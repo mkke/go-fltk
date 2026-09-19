@@ -133,6 +133,13 @@ func (m *menu) TextSize() int {
 	return int(C.go_fltk_Menu_textsize((*C.Fl_Menu_)(m.ptr())))
 }
 
+// TextColor returns the colour the menu draws its item titles in. It is
+// not LabelColor, which is the colour of the widget's own label beside
+// the control.
+func (m *menu) TextColor() Color {
+	return Color(C.go_fltk_Menu_textcolor((*C.Fl_Menu_)(m.ptr())))
+}
+
 // Make the shortcuts for this menu work no matter what window has the focus when you type it.
 func (m *menu) SetGlobal() {
 	C.go_fltk_Menu_set_global((*C.Fl_Menu_)(m.ptr()))

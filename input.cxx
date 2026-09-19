@@ -46,6 +46,9 @@ int go_fltk_Input_mark(Fl_Input *in) {
 int go_fltk_Input_textsize(Fl_Input *in) {
 	return in->textsize();
 }
+unsigned int go_fltk_Input_textcolor(Fl_Input *in) {
+	return in->textcolor();
+}
 
 class GOutput : public EventHandler<Fl_Output> {
 public:

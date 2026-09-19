@@ -55,3 +55,25 @@ func TestMenuTextSize_AnswersOnAChoice(t *testing.T) {
 		t.Errorf("TextSize() = %d, want the point size the item titles are drawn at", got)
 	}
 }
+
+// TestTextColor_IsTheDrawnTextsColour keeps the colour pair apart the
+// way the size pair is. A contrast check reads the colour the value is
+// drawn in, and the label beside the box carries a different one.
+func TestTextColor_IsTheDrawnTextsColour(t *testing.T) {
+	win := NewWindow(200, 200)
+	defer win.Destroy()
+	in := NewInput(0, 0, 100, 25)
+	c := NewChoice(0, 100, 100, 25)
+	win.End()
+
+	in.SetLabelColor(RED)
+	if got := in.TextColor(); got == RED {
+		t.Errorf("Input.TextColor() = %v, which is the label colour rather than the value's", got)
+	}
+	if r, g, b := in.TextColor().RGB(); r < 0 || g < 0 || b < 0 {
+		t.Errorf("Input.TextColor().RGB() = %d, %d, %d, want a resolvable colour", r, g, b)
+	}
+	if r, g, b := c.TextColor().RGB(); r < 0 || g < 0 || b < 0 {
+		t.Errorf("Choice.TextColor().RGB() = %d, %d, %d, want a resolvable colour", r, g, b)
+	}
+}
