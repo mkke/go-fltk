@@ -52,6 +52,13 @@ func (i *Input) TextColor() Color {
 	return Color(C.go_fltk_Input_textcolor((*C.Fl_Input)(i.ptr())))
 }
 
+// SetTextSize sets the point size the input draws its value at, which
+// TextSize reads back. It sets this widget only and leaves LabelSize
+// unchanged.
+func (i *Input) SetTextSize(size int) {
+	C.go_fltk_Input_set_textsize((*C.Fl_Input)(i.ptr()), C.int(size))
+}
+
 type Output struct {
 	Input
 }
