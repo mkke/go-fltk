@@ -21,7 +21,11 @@ Every local change is judged by what it costs at the next rebase:
 4. **No incidental whitespace or line-ending changes.** They are invisible in
    review and pure conflict fodder at rebase time.
 5. **Only what is necessary.** No debug scaffolding, no unused bindings. If
-   no consumer calls it, it does not belong here.
+   no consumer calls it, it does not belong here. FLTK's default size
+   `FL_NORMAL_SIZE` deliberately has no binding: fltkplus leaves it at 14
+   for the reason its
+   [ImplementationGuidelines § IM11](../fltkplus/ImplementationGuidelines.md#im11--a-packages-own-metrics-live-in-metricsgo)
+   gives.
 
 Measure before and after any sizeable change:
 
