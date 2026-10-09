@@ -24,6 +24,7 @@ extern "C" {
   extern int go_fltk_Menu_size(Fl_Menu_* m);
   extern int go_fltk_Menu_textsize(Fl_Menu_* m);
   extern unsigned int go_fltk_Menu_textcolor(Fl_Menu_* m);
+  extern void go_fltk_Menu_set_textsize(Fl_Menu_* m, int size);
   extern void go_fltk_Menu_set_global(Fl_Menu_* m);
   extern int go_fltk_Menu_mode(Fl_Menu_ *m, int id);
   extern void go_fltk_Menu_set_mode(Fl_Menu_ *m, int id, int flags);  

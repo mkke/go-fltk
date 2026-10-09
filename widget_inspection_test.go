@@ -77,3 +77,31 @@ func TestTextColor_IsTheDrawnTextsColour(t *testing.T) {
 		t.Errorf("Choice.TextColor().RGB() = %d, %d, %d, want a resolvable colour", r, g, b)
 	}
 }
+
+// TestSetTextSize_ReadsBackOnInputAndChoice covers the setters on both
+// halves: Fl_Input_::textsize(Fl_Fontsize) and
+// Fl_Menu_::textsize(Fl_Fontsize). The size is per widget, so the label
+// size stays where it was.
+func TestSetTextSize_ReadsBackOnInputAndChoice(t *testing.T) {
+	win := NewWindow(200, 200)
+	defer win.Destroy()
+	in := NewInput(0, 0, 100, 25)
+	c := NewChoice(0, 100, 100, 25)
+	win.End()
+
+	inLabel, cLabel := in.LabelSize(), c.LabelSize()
+	in.SetTextSize(17)
+	c.SetTextSize(19)
+	if got := in.TextSize(); got != 17 {
+		t.Errorf("Input.TextSize() = %d after SetTextSize(17)", got)
+	}
+	if got := c.TextSize(); got != 19 {
+		t.Errorf("Choice.TextSize() = %d after SetTextSize(19)", got)
+	}
+	if got := in.LabelSize(); got != inLabel {
+		t.Errorf("Input.LabelSize() = %d after SetTextSize, want %d", got, inLabel)
+	}
+	if got := c.LabelSize(); got != cLabel {
+		t.Errorf("Choice.LabelSize() = %d after SetTextSize, want %d", got, cLabel)
+	}
+}

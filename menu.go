@@ -140,6 +140,13 @@ func (m *menu) TextColor() Color {
 	return Color(C.go_fltk_Menu_textcolor((*C.Fl_Menu_)(m.ptr())))
 }
 
+// SetTextSize sets the point size the menu draws its item titles at,
+// which TextSize reads back. It sets this widget only and leaves
+// LabelSize unchanged.
+func (m *menu) SetTextSize(size int) {
+	C.go_fltk_Menu_set_textsize((*C.Fl_Menu_)(m.ptr()), C.int(size))
+}
+
 // Make the shortcuts for this menu work no matter what window has the focus when you type it.
 func (m *menu) SetGlobal() {
 	C.go_fltk_Menu_set_global((*C.Fl_Menu_)(m.ptr()))
