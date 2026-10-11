@@ -4,8 +4,14 @@ This repo is `mkke/go-fltk`, a fork of `github.com/pwiecz/go-fltk` (the Go
 bindings for FLTK). It carries local bindings and fixes the mallorn FLTK
 frontends need, plus macOS static libraries built on this machine.
 
-**There is no upstreaming.** Local changes stay local. The fork is therefore
-maintained as a small stack of commits rebased onto the latest upstream
+**Every local commit is a patch upstream could take.** The commits on top of
+`upstream/main` are the minimal set of patches the fork needs. Each one is
+self-contained, sits in its place in the stack order below, and carries a
+message that stands on its own without naming mallorn consumers. Before every
+push to GitHub, rework the commits added since the last push into that shape:
+fold a follow-up into the commit it completes, move a commit to its place in
+the stack, and split a commit that mixes unrelated changes. Never push a
+commit as it was appended. The stack is rebased onto the latest upstream
 release, so that adopting a new upstream version is mechanical.
 
 ## The prime directive: keep the stack rebasable
@@ -78,21 +84,58 @@ Quick consistency check (shared must read 0, darwin/arm64 must read 5):
 grep -n 'define FL_PATCH_VERSION' include/FL/Enumerations.H include/darwin/arm64/FL/Enumerations.H
 ```
 
-## Rebuilding the macOS libraries
+## Rebuilding the FLTK libraries
 
 ```sh
 go run fltk-build.go
 ```
 
-`fltk-build.go` clones FLTK at `tags/release-1.4.5`, applies
-`lib/fltk-1.4.patch`, pins `CMAKE_OSX_DEPLOYMENT_TARGET=13.0`, and installs
-into `lib/$GOOS/$GOARCH` and `include/$GOOS/$GOARCH`. The working checkout
-lands in the gitignored `fltk_build/`.
+`fltk-build.go` builds FLTK for the machine it runs on, `runtime.GOOS` and
+`runtime.GOARCH`; it has no cross-compile mode, so each platform's archives
+are built on a host of that platform. It needs `git` and `cmake` on `PATH`.
+It clones FLTK into the gitignored `fltk_build/`, checks out
+`tags/release-1.4.5`, applies `lib/fltk-1.4.patch` on darwin and windows,
+and installs into `lib/$GOOS/$GOARCH` and `include/$GOOS/$GOARCH`. It also
+rewrites `cgo_$GOOS_$GOARCH.go` from the flags of the build: diff it against
+the committed file before committing, because a committed file can carry
+flags added by hand that the regenerated one drops.
 
-`lib/fltk-1.4.patch` patches FLTK itself. It currently carries an upstream
-win32 cleanup hunk and a cocoa hunk that calls `-finishLaunching` when `NSApp`
+Before a second run, reset the FLTK checkout:
+
+```sh
+git -C fltk_build/fltk checkout -- .
+```
+
+The script restores only `src/Fl_win32.cxx` before applying the patch, and
+the patch also changes `src/Fl_cocoa.mm`, so a second `git apply` fails on
+an unreset checkout.
+
+`lib/fltk-1.4.patch` patches FLTK itself. It carries an upstream win32
+cleanup hunk and two cocoa hunks. One calls `-finishLaunching` when `NSApp`
 already exists, without which `kAEQuitApplication` (dock Quit, `osascript`
-quit) is silently dropped.
+quit) is silently dropped. The other records the screen a top-level window
+opens on, without which a window opened on another screen opens its menus
+on screen 0 until it is moved. A patch hunk reaches a platform only through
+archives built here; a platform that links upstream's prebuilt archives
+does not get it.
+
+| Platform | Toolchain | Notes |
+| --- | --- | --- |
+| `darwin/arm64` | Xcode command line tools | `CMAKE_OSX_DEPLOYMENT_TARGET=13.0` is pinned |
+| `windows/amd64` | the MinGW-w64 `gcc` and `mingw32-make` first on `PATH` | cmake's "MinGW Makefiles" generator |
+| `linux/amd64` | the system `gcc`/`g++` and the X11 development packages FLTK's `README.Unix.txt` lists | the patch is not applied |
+
+**Windows: the archives take the toolchain's C runtime.** A build with the
+WinLibs UCRT toolchain that hilmir's `scripts/windows/bootstrap.ps1`
+installs produces UCRT archives, and every consumer then links with a UCRT
+toolchain: MacPorts or Homebrew mingw-w64 on macOS, WinLibs UCRT on Windows.
+A Debian `-posix` MSVCRT toolchain no longer links them. Upstream's prebuilt
+archives are MSVCRT builds from TDM-GCC 10.3; `strings
+lib/windows/amd64/libfltk.a | grep 'GCC: ('` names the compiler of the
+committed ones. `bootstrap.ps1` does not install CMake (`winget install
+Kitware.CMake`). hilmir's `AGENTS.md`, "Cross-compiling from macOS/Linux",
+states which toolchain links the committed archives; change it in the same
+step as the archives.
 
 Bumping the FLTK version means: change `commit` in `fltk-build.go`, rebuild,
 refresh that platform's include tree, and re-check the patch still applies.
