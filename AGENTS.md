@@ -125,14 +125,14 @@ does not get it.
 | `windows/amd64` | the MinGW-w64 `gcc` and `mingw32-make` first on `PATH` | cmake's "MinGW Makefiles" generator |
 | `linux/amd64` | the system `gcc`/`g++` and the X11 development packages FLTK's `README.Unix.txt` lists | the patch is not applied |
 
-**Windows: the archives take the toolchain's C runtime.** A build with the
-WinLibs UCRT toolchain that hilmir's `scripts/windows/bootstrap.ps1`
-installs produces UCRT archives, and every consumer then links with a UCRT
-toolchain: MacPorts or Homebrew mingw-w64 on macOS, WinLibs UCRT on Windows.
-A Debian `-posix` MSVCRT toolchain no longer links them. Upstream's prebuilt
-archives are MSVCRT builds from TDM-GCC 10.3; `strings
-lib/windows/amd64/libfltk.a | grep 'GCC: ('` names the compiler of the
-committed ones. `bootstrap.ps1` does not install CMake (`winget install
+**Windows: the archives take the toolchain's C runtime.** Upstream's
+prebuilt archives are MSVCRT builds from TDM-GCC 10.3, and an MSVCRT
+toolchain links them: WinLibs MSVCRT on Windows, which hilmir's
+`scripts/windows/bootstrap.ps1` installs, or a Debian `-posix` mingw-w64. A
+build with a UCRT toolchain produces UCRT archives, and every consumer then
+links with a UCRT toolchain: MacPorts or Homebrew mingw-w64 on macOS,
+WinLibs UCRT on Windows. `strings lib/windows/amd64/libfltk.a | grep 'GCC: ('`
+names the compiler of the committed ones. `bootstrap.ps1` does not install CMake (`winget install
 Kitware.CMake`). hilmir's `AGENTS.md`, "Cross-compiling from macOS/Linux",
 states which toolchain links the committed archives; change it in the same
 step as the archives.
