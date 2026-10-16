@@ -159,7 +159,13 @@ func _go_awakeHandler(id C.uintptr_t) {
 
 func Awake(fn func()) bool {
 	awakeId := globalAwakeMap.register(fn)
-	return C.go_fltk_awake(C.uintptr_t(awakeId)) == 0
+	if C.go_fltk_awake(C.uintptr_t(awakeId)) != 0 {
+		// FLTK's callback queue is full and fn will never run, so
+		// drop its registration rather than keep it forever.
+		globalAwakeMap.fetchCallback(awakeId)
+		return false
+	}
+	return true
 }
 func AwakeNullMessage() {
 	C.go_fltk_awake_null_message()
