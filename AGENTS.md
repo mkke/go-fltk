@@ -172,12 +172,17 @@ built on this machine; say so rather than implying they were checked.
 
 ## Consumers
 
-Re-pin after any published change (`git.mallorn.de` repos, `master` branch):
+Re-pin after any published change. fltkplus is the consumer to re-pin
+first. A module that replaces fltkplus with `../fltkplus` compiles
+fltkplus's Go from that checkout, so its own go-fltk pin must be at least
+fltkplus's, and it moves in the same step. These find the consumers, the
+first those that pin a pseudo-version, the second those that follow this
+checkout with a local `replace`:
 
-- Pinned by pseudo-version in `go.mod`: **fltkplus**, **mchart**,
-  **mhelp**, **hilmir**.
-- Local path `replace => ../go-fltk`, so they follow the checkout with no
-  pin: **toolbed**, **tradewatch**.
+```sh
+grep -rl --include=go.mod 'mkke/go-fltk v' ~/git
+grep -rl --include=go.mod 'go-fltk => \.\./go-fltk' ~/git
+```
 
 ```sh
 go mod edit -replace github.com/pwiecz/go-fltk=github.com/mkke/go-fltk@<pseudo-version>
