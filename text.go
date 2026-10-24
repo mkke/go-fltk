@@ -56,9 +56,11 @@ func _go_modifyCallbackHandler(id C.uintptr_t, pos, nInserted, nDeleted, nRestyl
 }
 
 type StyleTableEntry struct {
-	Color Color
-	Font  Font
-	Size  int
+	Color   Color
+	Font    Font
+	Size    int
+	Attr    TextAttr // further attributes of the style, such as TEXT_ATTR_BGCOLOR
+	BgColor Color    // the text background, drawn when Attr has TEXT_ATTR_BGCOLOR
 }
 
 type TextBuffer struct {
@@ -447,8 +449,8 @@ func (t *TextDisplay) SetHighlightData(buf *TextBuffer, entries []StyleTableEntr
 		colors = append(colors, C.uint(entries[i].Color))
 		fonts = append(fonts, C.int(entries[i].Font))
 		sizes = append(sizes, C.int(entries[i].Size))
-		attrs = append(attrs, 0)
-		bgcolors = append(bgcolors, 0)
+		attrs = append(attrs, C.uint(entries[i].Attr))
+		bgcolors = append(bgcolors, C.uint(entries[i].BgColor))
 	}
 	C.go_fltk_TextDisplay_set_highlight_data((*C.Fl_Text_Display)(t.ptr()), buf.ptr(), &colors[0], &fonts[0], &sizes[0], &attrs[0], &bgcolors[0], C.int(len(entries)))
 }
