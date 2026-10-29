@@ -53,3 +53,15 @@ index 2331a9ff6..27c9ba4a3 100644
      }
      if (fl_mac_os_version < 140000) {
        // empty the event queue but keep system events for drag&drop of files at launch
+@@ -3249,6 +3262,11 @@ void Fl_Cocoa_Window_Driver::makeWindow()
+     this->x(round(crect.origin.x/s));
+     this->y( round((main_screen_height - crect.origin.y)/s) - w->h() );
+   }
++  // The window delegate is set below, after the window is placed, so no
++  // windowDidMove: records the screen the window opens on. Record it here,
++  // or a window that opens on another screen keeps screen 0 until it is
++  // moved, and its menus open on screen 0.
++  if (!w->parent()) screen_num(Fl::screen_num(w->x(), w->y(), w->w(), w->h()));
+   // Install DnD handlers
+   [myview registerForDraggedTypes:[NSArray arrayWithObjects:UTF8_pasteboard_type,
+                                    fl_filenames_pboard_type, nil]];
