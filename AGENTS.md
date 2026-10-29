@@ -98,7 +98,12 @@ It clones FLTK into the gitignored `fltk_build/`, checks out
 and installs into `lib/$GOOS/$GOARCH` and `include/$GOOS/$GOARCH`. It also
 rewrites `cgo_$GOOS_$GOARCH.go` from the flags of the build: diff it against
 the committed file before committing, because a committed file can carry
-flags added by hand that the regenerated one drops.
+flags added by hand that the regenerated one drops. It also rewrites every
+archive in `lib/$GOOS/$GOARCH` and the image headers in
+`include/$GOOS/$GOARCH/FL/images` from the zlib, libpng and libjpeg FLTK
+bundles. A change to the patch reaches only `libfltk.a`, so commit that
+archive and restore the other archives, the image headers and the cgo
+file.
 
 Before a second run, reset the FLTK checkout:
 
