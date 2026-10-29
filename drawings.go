@@ -27,6 +27,7 @@ func SetDrawFont(font Font, size int) {
 }
 
 func DrawFont() (Font, int) {
+	openDisplay()
 	return Font(C.go_fltk_draw_font()), int(C.go_fltk_draw_font_size())
 }
 
